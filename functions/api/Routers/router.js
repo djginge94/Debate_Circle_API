@@ -4,6 +4,11 @@ const auth = require('../../api/Services/auth');
 module.exports = (app) => {
     app.use(auth);
 
+    app.route('/test')
+        .get((req, res) => {
+            res.send("Hello, World!")
+        });
+
     app.route('/debate')
         .post(controller.create_debate)
 
