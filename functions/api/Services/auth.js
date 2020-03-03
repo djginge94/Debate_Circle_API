@@ -1,9 +1,7 @@
 const admin = require("firebase-admin");
 
 module.exports = (req, res, next) => {
-    console.log(req);
-    
-    const idToken = "Not a Token";
+    const idToken = req.header('Authentocation');
     admin.auth().verifyIdToken(idToken)
         .then(decodedToken => {
             return next();
