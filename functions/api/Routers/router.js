@@ -5,9 +5,7 @@ module.exports = (app) => {
     app.use(auth);
 
     app.route('/test')
-        .get((req, res) => {
-            res.send("Hello, World!")
-        });
+        .get((req, res) => { res.send(req.user); });
 
     app.route('/debate')
         .post(controller.create_debate)
