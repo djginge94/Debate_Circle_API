@@ -1,8 +1,8 @@
-const admin = require("firebase-admin");
+const firebase = require("./firebase");
 
 module.exports = (req, res, next) => {
     const idToken = req.header('Authorization');
-    admin.auth().verifyIdToken(idToken)
+    firebase.admin.auth().verifyIdToken(idToken)
         .then(decodedToken => {
             req.user = decodedToken;
             return next();

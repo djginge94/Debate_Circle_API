@@ -1,24 +1,30 @@
-const firebase = require("../Services/firebase");
-const DebateResource = require("../Resources/DebateResource");
 
 exports.create_debate = ((req, res) => {
     let body = JSON.parse(JSON.stringify(req.body))
-    firebase.debate_database.push(body)
-        .then(ref => DebateResource.create(ref.key))
+    const create_usecase = require('../UseCases/create_debate');
+    create_usecase(body, req.user)
         .then(obj => res.status(201).send(obj))
-        .catch(error => res.status(500).send(error));
+        .catch(error => {
+            console.log(error);
+            res.status(error.statusCode).send(error.message)
+        });
 });
 
 exports.get_debate = ((req, res) => {
-    let id = req.params.id;
-    DebateResource.create(id)
+    let key = req.params.id;
+    const get_details_usecase = require('../UseCases/get_debate_details');
+    get_details_usecase(key)
         .then(obj => res.status(200).send(obj))
         .catch(error => res.status(500).send(error));
 });
 
 exports.delete_debate = ((req, res) => {
     let id = req.params.id;
-    firebase.debate_database.child(id).remove()
-        .then(_ => res.status(200).send())
-        .catch(error => res.status(500).send(error));
+    const delete_usecase = require('../UseCases/delete_debate');
+    delete_usecase(id, req.user)
+        .then(_ => res.sendStatus(200))
+        .catch(error => {
+            console.log(error);
+            res.status(error.statusCode).send(error.message)
+        });
 });
