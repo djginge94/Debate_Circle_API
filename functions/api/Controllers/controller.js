@@ -4,11 +4,16 @@ exports.create_debate = ((req, res) => {
     const create_usecase = require('../UseCases/create_debate');
     create_usecase(body, req.user)
         .then(obj => res.status(201).send(obj))
-        .catch(error => {
-            console.log(error);
-            res.status(error.statusCode).send(error.message)
-        });
+        .catch(error => res.status(error.statusCode).send(error.message));
 });
+
+exports.get_all_debates = ((req, res) => {
+    let category = req.query.category;
+    const get_all_usecase = require('../UseCases/get_all_debates');
+    get_all_usecase(category)
+        .then(obj => res.status(200).send(obj))
+        .catch(error => res.status(error.statusCode).send(error.message));
+})
 
 exports.get_debate = ((req, res) => {
     let key = req.params.id;

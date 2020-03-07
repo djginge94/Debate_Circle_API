@@ -20,13 +20,8 @@ module.exports = (body, user) => new Promise((resolve, reject) => {
     debate.publishedBy.image = user["picture"];
 
     const db = Firebase.debate_database;
-    db.push(debate)
-        .then(ref => DebateResource(ref.key))
-        .then(obj => {
-            resolve(obj); return;
-        })
-        .catch(_ => {
-            reject(HttpError[502]('Firebase failure'));
-            return;
-        })
+    db.add(debate)
+        .then(ref => ref.get())
+        .then(snap => { resolve(DebateResource(snap.id, snap.data())); return })
+        .catch(_ => { reject(HttpError[502]('Firebase failure')); return })
 });

@@ -3,18 +3,14 @@ const Firebase = require("../Services/firebase");
 
 module.exports = (key, user) => new Promise((resolve, reject) => {
     const db = Firebase.debate_database;
-    db.child(key).once('value')
+    db.doc(key).get()
         .then(snap => {
-            let debate = snap.val()
-            if (user["user_id"] !== debate.publishedBy["userId"]) {
+            if (user["user_id"] !== snap.data().publishedBy["userId"]) {
                 reject(HttpError[403]("Can't delete objects you didn't create"));
                 return;
             }
-            return db.child(key).remove();
+            return db.doc(key).delete();
         })
-        .then(_ => { resolve(); return })
-        .catch(error => {
-            reject(HttpError[502]('Firebase failure'));
-            return;
-        })
+        .then(_ => {resolve(); return})
+        .catch(_ => { reject(HttpError[502]('Firebase failure')); return; })
 });
