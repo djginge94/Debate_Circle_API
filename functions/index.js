@@ -2,10 +2,15 @@ const functions = require('firebase-functions');
 const app = require('express')();
 const cors = require('cors')();
 const bodyParser = require('body-parser');
-const router = require('./api/Routers/router');
+const auth = require('./api/Services/auth');
+const DebateRouter = require('./api/Routers/debate_router');
 
-app.use(cors);
 app.use(bodyParser.json());
-router(app);
+app.use(cors);
+app.use(auth);
+
+app.use('/debate', DebateRouter);
+
+app.use("*", (req,res) => { res.status(404).send('Not Found'); });
 
 exports.api = functions.https.onRequest(app);

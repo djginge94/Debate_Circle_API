@@ -13,7 +13,8 @@ module.exports = (body, user) => new Promise((resolve, reject) => {
     if (debate.categories === undefined) {
         debate.categories = [Categories.OTHER];
     }
-    debate.createdDate = Moment().toISOString();
+    debate.createdDate = Moment();
+    debate.expiryDate = null;
     debate.publishedBy = {};
     debate.publishedBy.userId = user["user_id"];
     debate.publishedBy.username = user["name"];

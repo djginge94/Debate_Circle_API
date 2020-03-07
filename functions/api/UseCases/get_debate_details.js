@@ -1,4 +1,5 @@
 const Firebase = require("../Services/firebase");
+const HttpError = require('http-errors');
 const DebateResource = require("../Resources/DebateResource");
 
 module.exports = (key) => new Promise((resolve, reject) => {

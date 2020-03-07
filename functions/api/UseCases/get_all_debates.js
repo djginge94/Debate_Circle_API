@@ -19,8 +19,8 @@ getAll = () => new Promise((resolve, reject) => {
     db.get().then(snap => {
         let models = [];
         snap.forEach(x => models.push(DebateResource(x.id, x.data())));
-        const joinable  = models.filter(x => x.expiryDate === undefined);
-        const judicable = models.filter(x => x.expiryDate !== undefined)
+        const joinable  = models.filter(x => x.expiryDate === null);
+        const judicable = models.filter(x => x.expiryDate !== null)
                                 .filter(x => Moment(x.expiryDate) <= Moment())
         
         return resolve({ joinable: joinable, judicable: judicable });
