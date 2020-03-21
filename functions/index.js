@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const auth = require('./api/Services/auth');
 const DebateRouter = require('./api/Routers/debate_router');
 const UserRouter = require('./api/Routers/user_router');
+const NotificationRouter = require('./api/Routers/notification_router');
 
 app.use(bodyParser.json());
 app.use(cors);
@@ -12,7 +13,8 @@ app.use(auth);
 
 app.use('/debate', DebateRouter);
 app.use('/user', UserRouter);
+// app.use('/notification', NotificationRouter)
 
-app.use("*", (req,res) => { res.status(404).send('Not Found'); });
+app.use("*", (req, res) => { res.status(404).send('Not Found'); });
 
 exports.api = functions.https.onRequest(app);
