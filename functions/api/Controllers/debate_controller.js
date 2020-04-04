@@ -1,6 +1,6 @@
 
 exports.create_debate = ((req, res) => {
-    let body = JSON.parse(JSON.stringify(req.body))
+    let body = JSON.parse(req.body);
     const create_usecase = require('../UseCases/create_debate');
     create_usecase(body, req.user)
         .then(obj => res.status(201).send(obj))
